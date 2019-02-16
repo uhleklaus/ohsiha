@@ -1,0 +1,10 @@
+{% extends "userInput/base.html" %}
+
+{% block content %}
+  <h2>Rekisteröidy</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Rekisteröidy!</button>
+  </form>
+{% endblock %}
