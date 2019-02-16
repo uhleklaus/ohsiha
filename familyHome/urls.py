@@ -16,19 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from userInput import views
-
 from userInput import views as user_views
-#from django.conf.urls import url
 from django.contrib.auth import views as auth_views
-
 from userInput import views as core_views
+from django.urls import path, include
+from userInput import urls as product_urls
 
 
 urlpatterns = [
     path('register/', core_views.register, name='register'),
     path('', views.home, name= 'project-home'),
+    path('product', include('userInput.urls')),
     path('admin/', admin.site.urls),
-    # path('register/', user_views.register, name= 'register'),
     path('login/', auth_views.LoginView.as_view(template_name = 'userInput/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name = 'userInput/logout.html'), name='logout'),
 ]
+
+    
+    
+
