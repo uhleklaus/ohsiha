@@ -5,5 +5,9 @@
 
 {% block content %}
   <h2>Kotisivu</h2>
-  <p><a href="{% url 'list_products' %}">Katso</a> tuotteet!</p>
+  {% if user.is_authenticated %}
+    <p><a href="{% url 'list_products' %}">Katso</a> tuotteet!</p>
+    {% else %}
+    <a href="{% url 'login' %}">Kirjaudu sisään</a>
+    {% endif %}
 {% endblock %}

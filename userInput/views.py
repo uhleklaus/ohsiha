@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Product
-from .forms import ProductForm
-from django.contrib.auth.forms import UserCreationForm
+from .forms import ProductForm, SignUpForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
 
 
+@login_required
 def list_products(request):
     products = Product.objects.all()
     return render(request, 'userInput/products.html', {'products': products})
@@ -43,13 +45,9 @@ def delete_product(request, id):
 def home(request):
     return render (request, 'userInput/home.html')
 
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
-
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -58,5 +56,5 @@ def register(request):
             login(request, user)
             return redirect('project-home')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, 'userInput/register.html', {'form': form})
